@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/label_input"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:textColor="@android:color/white"
+            android:gravity="end"
+            android:ellipsize="start"
+            android:textSize="35sp"
+            android:singleLine="true"
+            android:scrollbars="horizontal"/>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/label_result"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textColor="@android:color/white"
+        android:gravity="end"
+        android:ellipsize="end"
+        android:textSize="35sp"
+        android:singleLine="true"
+        android:textIsSelectable="true"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_AC"
+                android:text="AC">
+
+            </TextView>
+
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_open_bracket"
+                android:text="(">
+
+            </TextView>
+
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_close_bracket"
+                android:text=")">
+
+            </TextView>
+
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_division"
+                android:text="/">
+
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_7"
+                android:text="7">
+
+            </TextView>
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_8"
+                android:text="8">
+
+            </TextView>
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_9"
+                android:text="9">
+
+            </TextView>
+
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_multi"
+                android:text="*">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_4"
+                android:text="4">
+
+            </TextView>
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_5"
+                android:text="5">
+
+            </TextView>
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_6"
+                android:text="6">
+
+            </TextView>
+
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_plus"
+                android:text="+">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_1"
+                android:text="1">
+
+            </TextView>
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_2"
+                android:text="2">
+
+            </TextView>
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_3"
+                android:text="3">
+
+            </TextView>
+
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_minus"
+                android:text="-">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_float"
+                android:text=".">
+
+            </TextView>
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_0"
+                android:text="0">
+
+            </TextView>
+
+            <TextView
+                style="@style/NumberButton"
+                android:id="@+id/btn_clear"
+                android:text="Back">
+
+            </TextView>
+
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_equally"
+                android:text="=">
+
+            </TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
