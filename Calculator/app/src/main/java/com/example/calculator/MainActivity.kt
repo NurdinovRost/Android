@@ -6,9 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.content_main.*
-import net.objecthunter.exp4j.ExpressionBuilder
 import java.math.BigDecimal
-import java.math.RoundingMode
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,8 +41,6 @@ class MainActivity : AppCompatActivity() {
         btn_minus.setOnClickListener { setTextFields("-") }
 
         btn_AC.setOnClickListener {
-            val array = parseExpression(label_input.text.toString())
-            convertFromInfixToPostfix(array)
             label_input.text = ""
             label_result.text = ""
         }
@@ -58,24 +54,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_equally.setOnClickListener {
-            try {
+            val array = parseExpression(label_input.text.toString())
+            val queue = convertFromInfixToPostfix(array)
+            val result = calculatePostfixResult(queue)
+            label_result.text = result.toString()
 
-                val ex = ExpressionBuilder(label_input.text.toString()).build()
-                val result = ex.evaluate()
-                val longRes = result.toLong()
-                Log.d("res", ": $result and ${longRes.toDouble()}")
-                if(result == longRes.toDouble()) {
-                    label_result.text =
-                        longRes.toBigDecimal().setScale(15, RoundingMode.HALF_UP).toLong().toString()
-                }
-                else {
-                    label_result.text =
-                        result.toBigDecimal().setScale(14, RoundingMode.HALF_UP).toDouble().toString()
-                }
-
-            } catch (e:Exception) {
-                Log.d("Ошибка", "сщщбщение: ${e.message}")
-            }
         }
 
     }
@@ -179,7 +162,6 @@ class MainActivity : AppCompatActivity() {
     fun countElem(s: String, c: Char): Int {
         var sum = 0
         for (element in s) {
-//            Log.d("norm", "$element")
             if (element == c) sum++
         }
         return sum
@@ -207,14 +189,12 @@ class MainActivity : AppCompatActivity() {
         }
         if (temp.isNotEmpty())
             array.add(temp)
-        Log.d("msg", "$array")
         return array
     }
 
-    fun convertFromInfixToPostfix(array: ArrayList<String>){
+    fun convertFromInfixToPostfix(array: ArrayList<String>): Queue<String> {
         val operations = setOf("+", "-", "*", "/")
         val brackets = setOf("(", ")")
-        val numerals = setOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
         val queueNumbers: Queue<String> = ArrayDeque<String>()
         val stackOperations: Stack<String> = Stack()
         array.forEach {
@@ -256,8 +236,30 @@ class MainActivity : AppCompatActivity() {
             val elem = stackOperations.pop()
             queueNumbers.add(elem)
         }
-        Log.d("msg", "$stackOperations")
-        Log.d("msg", "$queueNumbers")
+        return queueNumbers
+    }
+
+
+    fun calculatePostfixResult(queue: Queue<String>): BigDecimal {
+        var stack: Stack<BigDecimal> = Stack()
+        val operations = setOf("+", "-", "*", "/")
+        while (queue.isNotEmpty()) {
+            val elem: String = queue.remove()
+            if (operations.contains(elem)) {
+                val a: BigDecimal = stack.pop()
+                val b: BigDecimal = stack.pop()
+                when (elem) {
+                    "+" -> stack.push(a + b)
+                    "-" -> stack.push(b - a)
+                    "*" -> stack.push(a * b)
+                    "/" -> stack.push(b / a)
+                }
+            } else {
+                stack.push(elem.toBigDecimal())
+            }
+        }
+
+        return stack.lastElement()
     }
 
 
