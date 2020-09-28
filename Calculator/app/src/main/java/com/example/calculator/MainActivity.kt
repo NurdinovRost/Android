@@ -1,16 +1,16 @@
 package com.example.calculator
 
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.util.Log
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.content_main.*
 import net.objecthunter.exp4j.ExpressionBuilder
+import java.math.BigDecimal
 import java.math.RoundingMode
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         btn_minus.setOnClickListener { setTextFields("-") }
 
         btn_AC.setOnClickListener {
+            val array = parseExpression(label_input.text.toString())
+            convertFromInfixToPostfix(array)
             label_input.text = ""
             label_result.text = ""
         }
@@ -115,30 +117,148 @@ class MainActivity : AppCompatActivity() {
             label_input.text = label_result.text
             label_result.text = ""
         }
-//        if (checkInputLabel(str))
-        label_input.append(str)
+        if (checkInputLabel(str))
+            label_input.append(str)
     }
 
-//    fun checkInputLabel(str: String): Boolean {
-//        var flag: Boolean = true
-//        val set = setOf("+", "-", "*", "/")
-//        if (str == ".") {
-//            val p = label_input.text.indexOf(".", 0)
-//            if (p != -1)
-//                flag = false
-//            if (label_input.text.isEmpty())
-//                flag = false
-//        }
-//        if (set.contains(str)) {
-//            if (label_input.text.isEmpty() && str != "-")
-//                flag = false
-//            if (label_input.text.isNotEmpty() && set.contains(label_input.text.last().toString())) {
-//                flag = false
-//            } else if (label_input.text.last().toString() == ".") {
-//                    flag = false
-//            }
-//        }
-//
-//        return flag
-//    }
+
+    fun checkInputLabel(str: String): Boolean {
+        val operations = setOf("+", "-", "*", "/")
+        val brackets = setOf("(", ")")
+        val numerals = setOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+
+        if (str == ".") {
+            val p = label_input.text.indexOf(".", 0)
+            if (p != -1)
+                return false
+            if (label_input.text.isEmpty())
+                return false
+        }
+        if (operations.contains(str)) {
+            if (label_input.text.isEmpty())
+                return false
+            else if (label_input.text.isNotEmpty() && operations.contains(label_input.text.last().toString())) {
+                return false
+            } else if (label_input.text.last().toString() == "." || label_input.text.last().toString() == "(") {
+                return false
+            }
+        }
+
+        if (brackets.contains(str)) {
+//            var stack = ArrayDeque<Int>()
+            if (str=="(") {
+                if (label_input.text.isEmpty())
+                    return true
+                else if (label_input.text.last().toString() == "." || label_input.text.last().toString() == ")")
+                    return false
+                else if (numerals.contains(label_input.text.last().toString()))
+                    return false
+            } else {
+                val openBrackets = countElem(label_input.text.toString(), '(')
+                val closeBrackets = countElem(label_input.text.toString(), ')')
+
+                when {
+                    label_input.text.isEmpty() -> return false
+                    openBrackets <= closeBrackets -> return false
+                    operations.contains(label_input.text.last().toString()) -> return false
+                    label_input.text.toString() == "." -> return false
+                    label_input.text.toString() == ")" -> return false
+                }
+            }
+        }
+
+        if (numerals.contains(str)) {
+            when {
+                label_input.text.isEmpty() -> return true
+                label_input.text.toString() == ")" -> return false
+            }
+        }
+        return true
+    }
+
+    fun countElem(s: String, c: Char): Int {
+        var sum = 0
+        for (element in s) {
+//            Log.d("norm", "$element")
+            if (element == c) sum++
+        }
+        return sum
+    }
+
+    fun parseExpression(str: String): ArrayList<String> {
+        var array = arrayListOf<String>()
+        val operations = setOf('+', '-', '*', '/')
+        val brackets = setOf('(', ')')
+        val numerals = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+        var temp = ""
+        str.forEach {
+            when {
+                numerals.contains(it) -> {
+                    temp += it
+                }
+                it == '.' -> temp += it
+                operations.contains(it) ||  brackets.contains(it)-> {
+                    if (temp.isNotEmpty())
+                        array.add(temp)
+                        temp = ""
+                    array.add(it.toString())
+                }
+            }
+        }
+        if (temp.isNotEmpty())
+            array.add(temp)
+        Log.d("msg", "$array")
+        return array
+    }
+
+    fun convertFromInfixToPostfix(array: ArrayList<String>){
+        val operations = setOf("+", "-", "*", "/")
+        val brackets = setOf("(", ")")
+        val numerals = setOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+        val queueNumbers: Queue<String> = ArrayDeque<String>()
+        val stackOperations: Stack<String> = Stack()
+        array.forEach {
+            if (operations.contains(it)) {
+                if (stackOperations.isEmpty() || stackOperations.lastElement() == "(")
+                    stackOperations.push(it)
+                else if (it == "*" || it == "/") {
+                    while (stackOperations.size > 0 && (stackOperations.lastElement() == "*" || stackOperations.lastElement() == "/" )) {
+                        val operation = stackOperations.pop()
+                        queueNumbers.add(operation)
+                    }
+                    stackOperations.push(it)
+                }
+                else if (it == "+" || it == "-") {
+                    while (stackOperations.size > 0 && stackOperations.lastElement() != "(") {
+                        val operation = stackOperations.pop()
+                        queueNumbers.add(operation)
+                    }
+                    stackOperations.push(it)
+                }
+
+            }
+            else if (brackets.contains(it)) {
+                if (it == "(")
+                    stackOperations.push(it)
+                else {
+                    while (stackOperations.size > 0 && stackOperations.lastElement() != "(") {
+                        val operation = stackOperations.pop()
+                        queueNumbers.add(operation)
+                    }
+                    if (stackOperations.lastElement() == "(")
+                        stackOperations.pop()
+                }
+            } else {
+                queueNumbers.add(it)
+            }
+        }
+        while (stackOperations.isNotEmpty()) {
+            val elem = stackOperations.pop()
+            queueNumbers.add(elem)
+        }
+        Log.d("msg", "$stackOperations")
+        Log.d("msg", "$queueNumbers")
+    }
+
+
 }
