@@ -1,12 +1,15 @@
 package com.example.calculator
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.coroutines.delay
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -54,11 +57,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_equally.setOnClickListener {
-            val array = parseExpression(label_input.text.toString())
-            val queue = convertFromInfixToPostfix(array)
-            val result = calculatePostfixResult(queue)
-            label_result.text = result.toString()
-
+            try {
+                val array = parseExpression(label_input.text.toString())
+                val queue = convertFromInfixToPostfix(array)
+                val result = calculatePostfixResult(queue)
+                label_result.text = result.toString()
+            } catch (e:Exception) {
+                Log.d("msg", "$e")
+            }
         }
 
     }
@@ -111,15 +117,17 @@ class MainActivity : AppCompatActivity() {
         val numerals = setOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
 
         if (str == ".") {
-            val p = label_input.text.indexOf(".", 0)
-            if (p != -1)
-                return false
             if (label_input.text.isEmpty())
+                return false
+
+            val temp: String = label_input.text.toString().split('+', '-', '*', '/', '(', ')').last()
+            val p = temp.indexOf(".", 0)
+            if (p != -1 || temp.isEmpty())
                 return false
         }
         if (operations.contains(str)) {
             if (label_input.text.isEmpty())
-                return false
+                return str == "-"
             else if (label_input.text.isNotEmpty() && operations.contains(label_input.text.last().toString())) {
                 return false
             } else if (label_input.text.last().toString() == "." || label_input.text.last().toString() == "(") {
@@ -153,7 +161,7 @@ class MainActivity : AppCompatActivity() {
         if (numerals.contains(str)) {
             when {
                 label_input.text.isEmpty() -> return true
-                label_input.text.toString() == ")" -> return false
+                label_input.text.last().toString() == ")" -> return false
             }
         }
         return true
@@ -173,22 +181,27 @@ class MainActivity : AppCompatActivity() {
         val brackets = setOf('(', ')')
         val numerals = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
         var temp = ""
-        str.forEach {
+        str.forEachIndexed {index, it ->
             when {
                 numerals.contains(it) -> {
                     temp += it
                 }
                 it == '.' -> temp += it
                 operations.contains(it) ||  brackets.contains(it)-> {
-                    if (temp.isNotEmpty())
-                        array.add(temp)
+                    if (index == 0 && it == '-' && temp.isEmpty()) {
+                        temp += "-"
+                    } else {
+                        if (temp.isNotEmpty())
+                            array.add(temp)
                         temp = ""
-                    array.add(it.toString())
+                        array.add(it.toString())
+                    }
                 }
             }
         }
         if (temp.isNotEmpty())
             array.add(temp)
+        Log.d("!?!?", "$array")
         return array
     }
 
@@ -252,7 +265,7 @@ class MainActivity : AppCompatActivity() {
                     "+" -> stack.push(a + b)
                     "-" -> stack.push(b - a)
                     "*" -> stack.push(a * b)
-                    "/" -> stack.push(b / a)
+                    "/" -> stack.push((b.toDouble() / a.toDouble()).toBigDecimal())
                 }
             } else {
                 stack.push(elem.toBigDecimal())

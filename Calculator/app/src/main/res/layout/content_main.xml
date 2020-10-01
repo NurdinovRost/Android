@@ -4,37 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_dark"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <HorizontalScrollView
+        android:id="@+id/scroll_input_label"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/black">
 
         <TextView
             android:id="@+id/label_input"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:textColor="@android:color/white"
-            android:gravity="end"
             android:ellipsize="start"
-            android:textSize="35sp"
+            android:gravity="end"
+            android:scrollbars="horizontal"
             android:singleLine="true"
-            android:scrollbars="horizontal"/>
+            android:textColor="@android:color/white"
+            android:textSize="35sp" />
     </HorizontalScrollView>
 
     <TextView
         android:id="@+id/label_result"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textColor="@android:color/white"
-        android:gravity="end"
         android:ellipsize="end"
-        android:textSize="35sp"
+        android:gravity="end"
+        android:background="@android:color/black"
         android:singleLine="true"
+        android:textColor="@android:color/white"
         android:textIsSelectable="true"
-        />
+        android:textSize="35sp" />
 
     <LinearLayout
         android:orientation="vertical"
