@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="_10">+10</string>
+    <string name="weather">Weather</string>
+    <string name="pn">ПН</string>
+    <string name="_33">33С</string>
 </resources>

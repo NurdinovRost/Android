@@ -1,130 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:theme="@style/AppThemeDark">
+    android:background="@color/colorPrimary">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml">
+
+        </Switch>
 
         <TextView
-            android:id="@+id/btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:gravity="center"
-            android:text="Погода"/>
+            android:id="@+id/textBar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/weather"
+            android:textSize="35sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.344"
+            app:layout_constraintStart_toEndOf="@+id/switch1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+        </TextView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutBar"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/cloud_sun">
+            android:src="@drawable/cloud_sun"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="TODO">
 
         </ImageView>
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="50sp"
             android:gravity="center"
-            android:text="33С"
-            android:textColor="@color/colorAccent">
+            android:text="@string/_33"
+            android:textSize="50sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon">
 
         </TextView>
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="35sp"
             android:gravity="center"
-            android:text="цшсцусц \n уштсуштсцш">
+            android:text="цшсцусц \n уштсуштсцш"
+            android:textSize="35sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
         </TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutBot"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="7dp"
-        android:theme="@style/AppThemeDark">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutTop"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
+            android:id="@+id/constraintLayoutBot1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/corners">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:src="@drawable/cloud_sun"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/cloud_sun" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
                     android:gravity="center"
-                    android:text="wid"/>
+                    android:text="wid"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/corners">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:src="@drawable/cloud_sun"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/cloud_sun" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
                     android:gravity="center"
-                    android:text="wid"/>
+                    android:text="wid"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/corners">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:src="@drawable/cloud_sun"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/cloud_sun" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
                     android:gravity="center"
-                    android:text="wid"/>
+                    android:text="wid"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -132,9 +177,11 @@
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fillViewport="true" >
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayoutBot1">
 
             <LinearLayout
 
@@ -145,191 +192,198 @@
                 android:padding="7dp">
 
                 <LinearLayout
-                    android:layout_height="match_parent"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/corners"
-                    android:layout_margin="5dp">
-
-                    <TextView
-                        style="@style/DownText"
-                        android:text="ПН"/>
-
-                    <ImageView
-                        style="@style/DownImage"
-                        android:src="@drawable/sun"/>
-
-                    <TextView
-                        style="@style/DownText"
-                        android:text="+10"/>
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_height="match_parent"
-                    android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/corners"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="ПН"/>
+                        android:textSize="25sp"
+                        android:text="ПН" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/sun"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cloud_sun_64" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="+10"/>
+                        android:textSize="23sp"
+                        android:text="+10" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_height="match_parent"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/corners"
-                    android:layout_margin="5dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="ПН"/>
+                        android:textSize="25sp"
+                        android:text="ПН" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/sun"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cloud_sun_64" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="+10"/>
+                        android:textSize="23sp"
+                        android:text="+10" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_height="match_parent"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/corners"
-                    android:layout_margin="5dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="ПН"/>
+                        android:textSize="25sp"
+                        android:text="ПН" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/sun"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cloud_sun_64" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="+10"/>
+                        android:textSize="23sp"
+                        android:text="+10" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_height="match_parent"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/corners"
-                    android:layout_margin="5dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="ПН"/>
+                        android:textSize="25sp"
+                        android:text="ПН" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/sun"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cloud_sun_64" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="+10"/>
+                        android:textSize="23sp"
+                        android:text="+10" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_height="match_parent"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/corners"
-                    android:layout_margin="5dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="ПН"/>
+                        android:textSize="25sp"
+                        android:text="ПН" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/sun"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cloud_sun_64" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
                         android:gravity="center"
-                        android:text="+10"/>
+                        android:textSize="23sp"
+                        android:text="@string/_10" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_height="match_parent"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/corners"
-                    android:layout_margin="5dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
                     <TextView
-                        style="@style/DownText"
-                        android:text="ПН"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="25sp"
+                        android:text="ПН" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/sun"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cloud_sun_64" />
 
                     <TextView
-                        style="@style/DownText"
-                        android:text="+10"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="23sp"
+                        android:text="+10" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="25sp"
+                        android:text="@string/pn" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cloud_sun_64" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="23sp"
+                        android:text="+10" />
 
                 </LinearLayout>
 
@@ -337,6 +391,7 @@
 
         </HorizontalScrollView>
 
-    </LinearLayout>
 
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
