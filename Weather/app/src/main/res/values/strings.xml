@@ -1,7 +1,27 @@
 <resources>
     <string name="app_name">Weather</string>
-    <string name="_10">+10</string>
     <string name="weather">Weather</string>
     <string name="pn">ПН</string>
-    <string name="_33">33С</string>
+    <string name="_33">33°C</string>
+    <string name="london_uk_n_sunny">LONDON, UK \n SUNNY</string>
+    <string name="precipitation">precipitation</string>
+    <string name="_42">42</string>
+    <string name="_30">30</string>
+    <string name="_55">55</string>
+    <string name="humidity">humidity</string>
+    <string name="wind_flow">wind flow</string>
+    <string name="_10">+10</string>
+    <string name="PN">ПН</string>
+    <string name="_24">+24</string>
+    <string name="VT">ВТ</string>
+    <string name="_14">+14</string>
+    <string name="SR">СР</string>
+    <string name="CT">ЧТ</string>
+    <string name="_3">+3</string>
+    <string name="PT">ПТ</string>
+    <string name="_5">+5</string>
+    <string name="SB">СБ</string>
+    <string name="__5">-5</string>
+    <string name="VS">ВС</string>
+    <string name="_13">-13</string>
 </resources>
