@@ -25,12 +25,22 @@
     </style>
 
     <style name="TextView.Primary">
-        <item name="android:textSize">23sp</item>
-        <item name="fontFamily">sans-serif-medium</item>
-    </style>
+    <item name="android:textSize">23sp</item>
+    <item name="fontFamily">sans-serif-medium</item>
+</style>
 
     <style name="TextView.Numbers">
         <item name="android:textSize">23sp</item>
+        <item name="fontFamily">@font/autour_one</item>
+    </style>
+
+    <style name="TextView.Primary.Horizontal">
+        <item name="android:textSize">25sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextView.Numbers.Horizontal">
+        <item name="android:textSize">35sp</item>
         <item name="fontFamily">@font/autour_one</item>
     </style>
 

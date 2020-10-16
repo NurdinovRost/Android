@@ -117,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="?attr/colorAccent"
+                android:background="@drawable/radius"
                 android:layout_margin="1dp"
                 android:orientation="vertical">
 
@@ -169,8 +169,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/radiusr"
                 android:layout_margin="1dp"
-                android:background="?attr/colorAccent"
                 android:orientation="vertical">
 
                 <TextView
@@ -213,7 +213,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
-                    android:background="?attr/colorAccent"
+                    android:background="@drawable/radius"
                     android:orientation="vertical">
 
                     <TextView
@@ -351,7 +351,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
-                    android:background="?attr/colorAccent"
+                    android:background="@drawable/radiusr"
                     android:orientation="vertical">
 
                     <TextView
