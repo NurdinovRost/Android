@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <plurals name="plur" tools:ignore="UnusedQuantity">
+        <item quantity="zero">%1$d контактов</item>
+        <item quantity="one">%1$d контакт найден</item>
+        <item quantity="two">%1$d контакта найдено</item>
+        <item quantity="few">%1$d контактов найдено</item>
+        <item quantity="many">%1$d контактов найдено</item>
+        <item quantity="other">%1$d контактов найдено</item>
+    </plurals>
+</resources>

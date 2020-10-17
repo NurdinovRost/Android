@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Contacts</string>
+    <string name="message_error">Permission denied to read</string>
+</resources>
