@@ -5,23 +5,15 @@
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="@color/colorAccent"
     card_view:contentPaddingBottom="10dp"
     card_view:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constrLayout"
-        android:background="@color/colorAccent"
         android:layout_width="match_parent"
-        android:padding="6dp"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:padding="6dp">
 
 
         <TextView
@@ -29,20 +21,49 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:layout_constraintStart_toEndOf="@id/img"
+            card_view:layout_constraintBottom_toTopOf="@id/last_name"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintBottom_toTopOf="@id/last_name" />
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/last_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            card_view:layout_constraintTop_toBottomOf="@id/first_name"
-            card_view:layout_constraintStart_toEndOf="@id/img"
+            card_view:layout_constraintBottom_toTopOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintBottom_toTopOf="parent"/>
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/first_name" />
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@id/img_message"
+            card_view:layout_constraintTop_toBottomOf="@id/last_name" />
+
+        <ImageView
+            android:id="@+id/img_message"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/sms"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toEndOf="@id/img"
+            card_view:layout_constraintEnd_toStartOf="@id/img_phone"
+            card_view:layout_constraintTop_toBottomOf="@id/last_name"/>
+
+        <ImageView
+            android:id="@+id/img_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/call"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@id/img_message"
+            card_view:layout_constraintTop_toBottomOf="@id/last_name"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

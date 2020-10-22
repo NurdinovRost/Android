@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Контакты</string>
     <string name="message_error">Отсутствует доступ чтения контактов</string>
+    <string name="message_error_sms">Отсутствует доступ отправки сообщений</string>
 </resources>

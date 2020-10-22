@@ -12,8 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.list_item.view.*
 
@@ -49,24 +51,31 @@ class MainActivity : AppCompatActivity() {
                 }
     }
 
-    class UserViewHolder(val root: View, val callback: (Contact) -> Unit): RecyclerView.ViewHolder(
+    class UserViewHolder(val root: View,
+                         val callbackphone: (Contact) -> Unit,
+                         val callbackmessage: (Contact) -> Unit): RecyclerView.ViewHolder(
         root
     ) {
         fun bind(user: Contact) {
             with(root) {
-                setOnClickListener {
-                    callback(user)
-                }
                 first_name.text = user.name
                 last_name.text = user.phoneNumber
                 img.setImageResource(user.imageID)
+                img_phone.setOnClickListener{
+                    callbackphone(user)
+                }
+                img_message.setOnClickListener {
+                    callbackmessage(user)
+                }
             }
         }
     }
+    
 
     class UserAdapter(
         usersOnInit: List<Contact>,
-        private val onClick: (Contact) -> Unit
+        private val onClickPhone: (Contact) -> Unit,
+        private val onClickMessage: (Contact) -> Unit,
     ): RecyclerView.Adapter<UserViewHolder>() {
 
         var users = usersOnInit
@@ -81,7 +90,8 @@ class MainActivity : AppCompatActivity() {
                     .inflate(R.layout.list_item, parent, false)
             val holder = UserViewHolder(
                 root = view,
-                callback = onClick
+                callbackphone = onClickPhone,
+                callbackmessage = onClickMessage
             )
             return holder
         }
@@ -98,15 +108,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         requestPermissions(
-            arrayOf(Manifest.permission.READ_CONTACTS),
+            arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.SEND_SMS),
             1
         );
 //        val userList = fetchAllContacts()
-        val viewManager = LinearLayoutManager(this)
-        contactsAdapter = UserAdapter(emptyList()) {
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + it.phoneNumber))
-            startActivity(intent)
-        }
+        val viewManager = GridLayoutManager(this, 2)
+        contactsAdapter = UserAdapter(emptyList(), {
+            val intentPhone = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${it.phoneNumber}"))
+            startActivity(intentPhone)
+        }, {
+            val intentMessage = Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:${it.phoneNumber}"))
+            intentMessage.putExtra("sms_body", "Welcome to the club")
+            startActivity(intentMessage)
+        })
         RW.apply {
             layoutManager = viewManager
             adapter = contactsAdapter
@@ -119,20 +133,38 @@ class MainActivity : AppCompatActivity() {
     ) {
         when (requestCode) {
             1 -> {
-                if (grantResults.size > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    contactsAdapter.users = fetchAllContacts()
-                    val temp = contactsAdapter.users.size
-                    val message = this.getResources().getQuantityString(R.plurals.plur, temp, temp)
-                    Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+                grantResults.forEachIndexed { index, result ->
+                    when (permissions[index]) {
+                        Manifest.permission.READ_CONTACTS -> {
+                            if (result == PackageManager.PERMISSION_GRANTED) {
+                                contactsAdapter.users = fetchAllContacts()
+                                val temp = contactsAdapter.users.size
+                                val message = this.getResources()
+                                    .getQuantityString(R.plurals.plur, temp, temp)
+                                Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT)
+                                    .show()
+                            } else {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    R.string.message_error,
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        }
 
-                } else {
-
-                    Toast.makeText(this@MainActivity, R.string.message_error, Toast.LENGTH_SHORT)
-                        .show()
+                        Manifest.permission.SEND_SMS -> {
+                            if (result == PackageManager.PERMISSION_DENIED) {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    R.string.message_error,
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        }
+                    }
                 }
-                return
             }
         }
     }
