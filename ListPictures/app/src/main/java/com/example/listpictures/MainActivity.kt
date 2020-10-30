@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -23,11 +22,11 @@ import java.net.URL
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        fun genURLs(count: Int): ArrayList<String> {
+        private fun genURLs(count: Int): ArrayList<String> {
             val randomURLs = ArrayList<String>()
             for (j in 0..count-1) {
                 val randomString = (1..6)
-                    .map { i -> kotlin.random.Random.nextInt(0, source.length) }
+                    .map { kotlin.random.Random.nextInt(0, source.length) }
                     .map(source::get)
                     .joinToString("")
 
@@ -35,8 +34,8 @@ class MainActivity : AppCompatActivity() {
             }
             return randomURLs
         }
-        const val source = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        const val main_url = "https://robohash.org/"
+        private const val source = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        private const val main_url = "https://robohash.org/"
         var arr: ArrayList<String> = genURLs(10)
 //        val progress = IntArray(10) { i -> i * 10 }
 
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        progressBlock.visibility = ProgressBar.VISIBLE;
+        progressBlock.visibility = ProgressBar.VISIBLE
         progressText.text = "0%"
         ImageLoader().execute(*arr.toTypedArray())
     }
@@ -83,10 +82,10 @@ class MainActivity : AppCompatActivity() {
             val activity = activityRef.get()
             if (activity != null) {
                 if (result != null) {
-                    val pictures_1 = genArray(arr, result)
+                    val pictures = genArray(arr, result)
                     progressBlock.visibility = ProgressBar.INVISIBLE
                     val adapter = GroupAdapter<GroupieViewHolder>().apply {
-                        addAll(pictures_1)
+                        addAll(pictures)
                     }
                     pictureRV.adapter = adapter
                 }
