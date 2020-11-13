@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         progressBlock.visibility = ProgressBar.VISIBLE
         progressText.text = "0%"
         ImageLoader().execute(*arr.toTypedArray())
+
     }
 
     inner class ImageLoader : AsyncTask<String, Int, ArrayList<Bitmap>>() {
