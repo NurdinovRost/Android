@@ -123,6 +123,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textViewWindFLow"
                     style="@style/TextView.Numbers"
                     android:text="@string/_55" />
 
@@ -149,6 +150,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textViewCloudy"
                     style="@style/TextView.Numbers"
                     android:text="@string/_30"/>
 
@@ -161,7 +163,7 @@
 
                 <TextView
                     style="@style/TextView.Primary"
-                    android:text="@string/precipitation"
+                    android:text="@string/cloudy"
                     android:textSize="20sp"/>
 
             </LinearLayout>
@@ -175,6 +177,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textViewHumidity"
                     style="@style/TextView.Numbers"
                     android:text="@string/_42"/>
 
