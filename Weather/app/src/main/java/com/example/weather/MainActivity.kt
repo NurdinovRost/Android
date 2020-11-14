@@ -3,27 +3,23 @@ package com.example.weather
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.moshi.Json
-import com.squareup.moshi.Moshi
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import java.lang.Math.round
 import kotlin.math.roundToInt
 
 
 class WeatherResponse(
     @field:Json(name = "timezone") var timezone: String,
     @field:Json(name = "current") var current: Current,
-    @field:Json(name = "daily") var daily: List<Dialy>,
+    @field:Json(name = "daily") var daily: List<Daily>,
 )
 
 class Current(
@@ -34,7 +30,7 @@ class Current(
     @field:Json(name = "weather") var weather: List<WeatherDescription>,
 )
 
-class Dialy(
+class Daily(
     @field:Json(name = "temp") var temp: Temp,
     @field:Json(name = "weather") var weather: List<WeatherDescription>,
 )
@@ -54,18 +50,21 @@ class WeatherDescription(
 class MainActivity : AppCompatActivity() {
     companion object{
         const val URL = "https://api.openweathermap.org/data/2.5/"
-        const val lat = "59.937500"
-        const val lon = "30.308611"
-        const val exclude = "minutely,hourly,daily,alerts"
-        const val API_KEY = "508af3c89d5fdcb4b9f030cea26e964e"
     }
 
-    public interface OpenWeatherMapService {
+    interface OpenWeatherMapService {
         @GET("onecall?lat=59.937500&lon=30.308611&exclude=minutely,hourly,alerts&units=metric&appid=508af3c89d5fdcb4b9f030cea26e964e")
         fun listWeather(): Call<WeatherResponse>
     }
 
     private var flagTheme = false
+    private val retrofit =
+        Retrofit.Builder()
+            .baseUrl(URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+    private val service = retrofit.create(OpenWeatherMapService::class.java)
+    private var call: Call<WeatherResponse>? = service.listWeather()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,26 +77,11 @@ class MainActivity : AppCompatActivity() {
             recreate()
         }
 
-        val retrofit =
-            Retrofit.Builder()
-                .baseUrl(URL)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build()
-        val service = retrofit.create(OpenWeatherMapService::class.java)
-        val call: Call<WeatherResponse> = service.listWeather()
-        call.enqueue(object : Callback<WeatherResponse> {
+        call?.enqueue(object : Callback<WeatherResponse> {
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
                 if (response.code() == 200) {
                     val weatherResponse = response.body()!!
-
-                    val stringBuilder = "lat: " +
-                            weatherResponse.current.temp.toString() +
-                            "\n" +
-//                            "timezone" +
-//                            weatherResponse.weather[0].main
-
-                    Log.d("MSG-ff", "${weatherResponse.daily[0].temp}")
                     val t = weatherResponse.current.temp.roundToInt()
                     if (t > 0) {
                         textView.text = "${t}°C"
@@ -113,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                         .load("https://openweathermap.org/img/wn/$icon1@2x.png")
                         .fit().centerCrop()
                         .into(icon)
-                    fun genPredictionOnEveryDay(days: List<Dialy>) {
+                    fun genPredictionOnEveryDay(days: List<Daily>) {
                         val imgDay = listOf(imgPN, imgVT, imgSR, imgCT, imgPT, imgSB, imgVS)
                         val textViewTempDay = listOf(textViewTempPN, textViewTempVT, textViewTempSR, textViewTempCT, textViewTempPT, textViewTempSB, textViewTempVS)
                         days.forEachIndexed { index, day ->
@@ -150,5 +134,10 @@ class MainActivity : AppCompatActivity() {
         outState.putBoolean("flagTheme", flagTheme)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        call?.cancel()
+        call = null
+    }
 
 }
