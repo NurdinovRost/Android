@@ -222,15 +222,17 @@
 
                     <TextView
                         style="@style/TextView.Primary"
-                        android:text="@string/PN" />
+                        android:text="@string/MD" />
 
                     <ImageView
+                        android:id="@+id/imgPN"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
                         android:src="@drawable/sun_64" />
 
                     <TextView
+                        android:id="@+id/textViewTempPN"
                         style="@style/TextView.Primary"
                         android:text="@string/_24" />
 
@@ -245,15 +247,17 @@
 
                     <TextView
                         style="@style/TextView.Primary"
-                        android:text="@string/VT" />
+                        android:text="@string/TD" />
 
                     <ImageView
+                        android:id="@+id/imgVT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
                         android:src="@drawable/cloud_sun_64" />
 
                     <TextView
+                        android:id="@+id/textViewTempVT"
                         style="@style/TextView.Primary"
                         android:text="@string/_14" />
 
@@ -268,15 +272,17 @@
 
                     <TextView
                         style="@style/TextView.Primary"
-                        android:text="@string/SR" />
+                        android:text="@string/WD" />
 
                     <ImageView
+                        android:id="@+id/imgSR"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
                         android:src="@drawable/cloud_rain_64" />
 
                     <TextView
+                        android:id="@+id/textViewTempSR"
                         style="@style/TextView.Primary"
                         android:text="@string/_10" />
 
@@ -291,15 +297,17 @@
 
                     <TextView
                         style="@style/TextView.Primary"
-                        android:text="@string/CT" />
+                        android:text="@string/ThD" />
 
                     <ImageView
+                        android:id="@+id/imgCT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
                         android:src="@drawable/cloud_flash_64" />
 
                     <TextView
+                        android:id="@+id/textViewTempCT"
                         style="@style/TextView.Primary"
                         android:text="@string/_3" />
 
@@ -314,15 +322,17 @@
 
                     <TextView
                         style="@style/TextView.Primary"
-                        android:text="@string/PT" />
+                        android:text="@string/FD" />
 
                     <ImageView
+                        android:id="@+id/imgPT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
                         android:src="@drawable/cloud_sun_64" />
 
                     <TextView
+                        android:id="@+id/textViewTempPT"
                         style="@style/TextView.Primary"
                         android:text="@string/_5" />
 
@@ -337,15 +347,17 @@
 
                     <TextView
                         style="@style/TextView.Primary"
-                        android:text="@string/SB" />
+                        android:text="@string/StD" />
 
                     <ImageView
+                        android:id="@+id/imgSB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
                         android:src="@drawable/cloud_snow_64" />
 
                     <TextView
+                        android:id="@+id/textViewTempSB"
                         style="@style/TextView.Primary"
                         android:text="@string/__5" />
 
@@ -360,15 +372,17 @@
 
                     <TextView
                         style="@style/TextView.Primary"
-                        android:text="@string/VS" />
+                        android:text="@string/SnD" />
 
                     <ImageView
+                        android:id="@+id/imgVS"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
                         android:src="@drawable/cloud_snow_64" />
 
                     <TextView
+                        android:id="@+id/textViewTempVS"
                         style="@style/TextView.Primary"
                         android:text="@string/_13" />
 

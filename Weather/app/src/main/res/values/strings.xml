@@ -25,4 +25,11 @@
     <string name="VS">ВС</string>
     <string name="_13">-13</string>
     <string name="cloudy">cloudy</string>
+    <string name="WD">WD</string>
+    <string name="MD">MD</string>
+    <string name="TD">TD</string>
+    <string name="ThD">ThD</string>
+    <string name="FD">FD</string>
+    <string name="StD">StD</string>
+    <string name="SnD">SnD</string>
 </resources>

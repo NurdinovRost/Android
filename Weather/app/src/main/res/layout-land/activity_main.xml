@@ -135,6 +135,7 @@
                     app:layout_constraintWidth_percent=".3">
 
                     <TextView
+                        android:id="@+id/textViewWindFLow"
                         style="@style/TextView.Numbers.Horizontal"
                         android:text="@string/_55" />
 
@@ -163,6 +164,7 @@
                     app:layout_constraintWidth_percent=".4">
 
                     <TextView
+                        android:id="@+id/textViewCloudy"
                         style="@style/TextView.Numbers.Horizontal"
                         android:text="@string/_30" />
 
@@ -175,7 +177,7 @@
 
                     <TextView
                         style="@style/TextView.Primary.Horizontal"
-                        android:text="@string/precipitation" />
+                        android:text="@string/cloudy" />
 
                 </LinearLayout>
 
@@ -190,6 +192,7 @@
                     app:layout_constraintWidth_percent=".3">
 
                     <TextView
+                        android:id="@+id/textViewHumidity"
                         style="@style/TextView.Numbers.Horizontal"
                         android:text="@string/_42" />
 
@@ -231,16 +234,18 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextView.Primary.Horizontal"
-                            android:text="@string/PN" />
+                            style="@style/TextView.Primary"
+                            android:text="@string/MD" />
 
                         <ImageView
+                            android:id="@+id/imgPN"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="fitXY"
                             android:src="@drawable/sun_64" />
 
                         <TextView
+                            android:id="@+id/textViewTempPN"
                             style="@style/TextView.Primary"
                             android:text="@string/_24" />
 
@@ -254,16 +259,18 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextView.Primary.Horizontal"
-                            android:text="@string/VT" />
+                            style="@style/TextView.Primary"
+                            android:text="@string/TD" />
 
                         <ImageView
+                            android:id="@+id/imgVT"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="fitXY"
-                            android:src="@drawable/cloud_sun_64"/>
+                            android:src="@drawable/cloud_sun_64" />
 
                         <TextView
+                            android:id="@+id/textViewTempVT"
                             style="@style/TextView.Primary"
                             android:text="@string/_14" />
 
@@ -277,16 +284,18 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextView.Primary.Horizontal"
-                            android:text="@string/SR" />
+                            style="@style/TextView.Primary"
+                            android:text="@string/WD" />
 
                         <ImageView
+                            android:id="@+id/imgSR"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="fitXY"
                             android:src="@drawable/cloud_rain_64" />
 
                         <TextView
+                            android:id="@+id/textViewTempSR"
                             style="@style/TextView.Primary"
                             android:text="@string/_10" />
 
@@ -300,16 +309,18 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextView.Primary.Horizontal"
-                            android:text="@string/CT" />
+                            style="@style/TextView.Primary"
+                            android:text="@string/ThD" />
 
                         <ImageView
+                            android:id="@+id/imgCT"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="fitXY"
                             android:src="@drawable/cloud_flash_64" />
 
                         <TextView
+                            android:id="@+id/textViewTempCT"
                             style="@style/TextView.Primary"
                             android:text="@string/_3" />
 
@@ -323,16 +334,18 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextView.Primary.Horizontal"
-                            android:text="@string/PT" />
+                            style="@style/TextView.Primary"
+                            android:text="@string/FD" />
 
                         <ImageView
+                            android:id="@+id/imgPT"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="fitXY"
                             android:src="@drawable/cloud_sun_64" />
 
                         <TextView
+                            android:id="@+id/textViewTempPT"
                             style="@style/TextView.Primary"
                             android:text="@string/_5" />
 
@@ -346,16 +359,18 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextView.Primary.Horizontal"
-                            android:text="@string/SB" />
+                            style="@style/TextView.Primary"
+                            android:text="@string/StD" />
 
                         <ImageView
+                            android:id="@+id/imgSB"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="fitXY"
                             android:src="@drawable/cloud_snow_64" />
 
                         <TextView
+                            android:id="@+id/textViewTempSB"
                             style="@style/TextView.Primary"
                             android:text="@string/__5" />
 
@@ -369,16 +384,18 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextView.Primary.Horizontal"
-                            android:text="@string/VS" />
+                            style="@style/TextView.Primary"
+                            android:text="@string/SnD" />
 
                         <ImageView
+                            android:id="@+id/imgVS"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleType="fitXY"
                             android:src="@drawable/cloud_snow_64" />
 
                         <TextView
+                            android:id="@+id/textViewTempVS"
                             style="@style/TextView.Primary"
                             android:text="@string/_13" />
 
