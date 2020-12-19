@@ -3,10 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dictionary_navigation"
-    app:startDestination="@id/dictionaryFragment">
+    app:startDestination="@id/dictionaryFragment"
+    tools:ignore="UnusedNavigation">
     <fragment
         android:id="@+id/dictionaryFragment"
-        android:name="com.example.fragments.ChatFragment"
-        android:label="ChatFragment"
-        tools:layout="@layout/fragment_chat"/>
+        android:name="com.example.fragments.DictionaryFragment"
+        android:label="DictionaryFragment"
+        tools:layout="@layout/fragment_dictionary">
+        <action
+            android:id="@+id/action_dictionaryFragment_self"
+            app:destination="@id/dictionaryFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation" />
+        <argument
+            android:name="counter"
+            app:argType="integer"
+            android:defaultValue="0"/>
+    </fragment>
+
 </navigation>
