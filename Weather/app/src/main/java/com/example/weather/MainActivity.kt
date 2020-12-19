@@ -1,6 +1,7 @@
 package com.example.weather
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity() {
     private val service = retrofit.create(OpenWeatherMapService::class.java)
     private var call: Call<WeatherResponse>? = service.listWeather()
 
+    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -76,54 +78,75 @@ class MainActivity : AppCompatActivity() {
             flagTheme = !flagTheme
             recreate()
         }
+        val prefs = getSharedPreferences("storage", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+
+        fun setViewInfo() {
+            textView.text = prefs.getString("textView", "")!!
+            textView2.text = prefs.getString("textView2", "")!!
+            textViewWindFLow.text = prefs.getString("textViewWindFLow", "")!!
+            textViewCloudy.text = prefs.getString("textViewCloudy", "")!!
+            textViewHumidity.text = prefs.getString("textViewHumidity", "")!!
+            textViewTempPN.text = prefs.getString("textViewTempPN", "")!!
+            textViewTempVT.text = prefs.getString("textViewTempVT", "")!!
+            textViewTempSR.text = prefs.getString("textViewTempSR", "")!!
+            textViewTempCT.text = prefs.getString("textViewTempCT", "")!!
+            textViewTempPT.text = prefs.getString("textViewTempPT", "")!!
+            textViewTempSB.text = prefs.getString("textViewTempSB", "")!!
+            textViewTempVS.text = prefs.getString("textViewTempVS", "")!!
+        }
+
 
         call?.enqueue(object : Callback<WeatherResponse> {
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
                 if (response.code() == 200) {
                     val weatherResponse = response.body()!!
+                    editor.putInt("textView", weatherResponse.current.temp.roundToInt()).apply()
                     val t = weatherResponse.current.temp.roundToInt()
                     if (t > 0) {
-                        textView.text = "${t}°C"
+                        editor.putString("textView", "+${t}°C").apply()
                     } else {
-                        textView.text = "-${t}°C"
+                        editor.putString("textView", "-${t}°C").apply()
                     }
-                    textView2.text = weatherResponse.timezone + "\n" + weatherResponse.current.weather[0].main
-                    textViewWindFLow.text = weatherResponse.current.wind_speed.toString()
-                    textViewCloudy.text = weatherResponse.current.clouds.toString()
-                    textViewHumidity.text = weatherResponse.current.humidity.toString()
+                    editor.putString("textView2", weatherResponse.timezone + "\n" + weatherResponse.current.weather[0].main).apply()
+                    editor.putString("textViewWindFLow", weatherResponse.current.wind_speed.toString()).apply()
+                    editor.putString("textViewCloudy", weatherResponse.current.clouds.toString()).apply()
+                    editor.putString("textViewHumidity", weatherResponse.current.humidity.toString()).apply()
                     val icon1 = weatherResponse.current.weather[0].icon
                     Picasso.get()
                         .load("https://openweathermap.org/img/wn/$icon1@2x.png")
                         .fit().centerCrop()
                         .into(icon)
-                    fun genPredictionOnEveryDay(days: List<Daily>) {
-                        val imgDay = listOf(imgPN, imgVT, imgSR, imgCT, imgPT, imgSB, imgVS)
-                        val textViewTempDay = listOf(textViewTempPN, textViewTempVT, textViewTempSR, textViewTempCT, textViewTempPT, textViewTempSB, textViewTempVS)
+                    fun genSaveEveryDay(days: List<Daily>) {
+                        val textViewTempDay = listOf(
+                            "textViewTempPN",
+                            "textViewTempVT",
+                            "textViewTempSR",
+                            "textViewTempCT",
+                            "textViewTempPT",
+                            "textViewTempSB",
+                            "textViewTempVS"
+                        )
                         days.forEachIndexed { index, day ->
-                            Log.d("MSGHELLO", "HELLO")
                             if (index != 0) {
                                 val tempNow = day.temp.day.roundToInt()
                                 if (tempNow >= 0) {
-                                    textViewTempDay[index - 1].text = "+$tempNow"
+                                    editor.putString(textViewTempDay[index - 1], "+$tempNow")
                                 } else {
-                                    textViewTempDay[index - 1].text = "$tempNow"
+                                    editor.putString(textViewTempDay[index - 1], "-$tempNow")
                                 }
-                                val iconPath = day.weather[0].icon
-                                Picasso.get()
-                                    .load("https://openweathermap.org/img/wn/$iconPath@2x.png")
-                                    .fit().centerCrop()
-                                    .into(imgDay[index - 1])
                             }
                         }
-
                     }
-                    genPredictionOnEveryDay(weatherResponse.daily)
+                    genSaveEveryDay(weatherResponse.daily)
+                    Log.d("dd", prefs.getString("textViewTempPN", "")!!)
                 }
+                setViewInfo()
             }
 
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                Log.d("MSG-ff", "FAIL GEGE")
+                setViewInfo()
             }
         })
     }
