@@ -132,15 +132,14 @@ class MainActivity : AppCompatActivity() {
                             if (index != 0) {
                                 val tempNow = day.temp.day.roundToInt()
                                 if (tempNow >= 0) {
-                                    editor.putString(textViewTempDay[index - 1], "+$tempNow")
+                                    editor.putString(textViewTempDay[index - 1], "+$tempNow").apply()
                                 } else {
-                                    editor.putString(textViewTempDay[index - 1], "-$tempNow")
+                                    editor.putString(textViewTempDay[index - 1], "$tempNow").apply()
                                 }
                             }
                         }
                     }
                     genSaveEveryDay(weatherResponse.daily)
-                    Log.d("dd", prefs.getString("textViewTempPN", "")!!)
                 }
                 setViewInfo()
             }
