@@ -7,11 +7,16 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.moshi.Json
 import com.squareup.picasso.Picasso
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import kotlin.math.roundToInt
@@ -58,16 +63,26 @@ class MainActivity : AppCompatActivity() {
         fun listWeather(): Call<WeatherResponse>
     }
 
+    interface OpenWeatherMapService1 {
+        @GET("onecall?lat=59.937500&lon=30.308611&exclude=minutely,hourly,alerts&units=metric&appid=508af3c89d5fdcb4b9f030cea26e964e")
+        fun listWeather(): Single<WeatherResponse>
+    }
+
     private var flagTheme = false
     private val retrofit =
         Retrofit.Builder()
             .baseUrl(URL)
             .addConverterFactory(MoshiConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     private val service = retrofit.create(OpenWeatherMapService::class.java)
     private var call: Call<WeatherResponse>? = service.listWeather()
+    private val service1: OpenWeatherMapService1 = retrofit.create(OpenWeatherMapService1::class.java)
+
+
 
     @SuppressLint("CommitPrefEdits")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -96,23 +111,34 @@ class MainActivity : AppCompatActivity() {
             textViewTempVS.text = prefs.getString("textViewTempVS", "")!!
         }
 
-
-        call?.enqueue(object : Callback<WeatherResponse> {
-            @SuppressLint("SetTextI18n")
-            override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
-                if (response.code() == 200) {
-                    val weatherResponse = response.body()!!
+        service1.listWeather()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : DisposableSingleObserver<WeatherResponse>() {
+                override fun onSuccess(weatherResponse: WeatherResponse) {
+//                    TODO("Not yet implemented")
+                    Log.d("SUCCESS", "${weatherResponse.current.weather}")
                     editor.putInt("textView", weatherResponse.current.temp.roundToInt()).apply()
                     val t = weatherResponse.current.temp.roundToInt()
                     if (t > 0) {
                         editor.putString("textView", "+${t}°C").apply()
                     } else {
-                        editor.putString("textView", "-${t}°C").apply()
+                        editor.putString("textView", "${t}°C").apply()
                     }
-                    editor.putString("textView2", weatherResponse.timezone + "\n" + weatherResponse.current.weather[0].main).apply()
-                    editor.putString("textViewWindFLow", weatherResponse.current.wind_speed.toString()).apply()
-                    editor.putString("textViewCloudy", weatherResponse.current.clouds.toString()).apply()
-                    editor.putString("textViewHumidity", weatherResponse.current.humidity.toString()).apply()
+                    editor.putString(
+                        "textView2",
+                        weatherResponse.timezone + "\n" + weatherResponse.current.weather[0].main
+                    ).apply()
+                    editor.putString(
+                        "textViewWindFLow",
+                        weatherResponse.current.wind_speed.toString()
+                    ).apply()
+                    editor.putString("textViewCloudy", weatherResponse.current.clouds.toString())
+                        .apply()
+                    editor.putString(
+                        "textViewHumidity",
+                        weatherResponse.current.humidity.toString()
+                    ).apply()
                     val icon1 = weatherResponse.current.weather[0].icon
                     Picasso.get()
                         .load("https://openweathermap.org/img/wn/$icon1@2x.png")
@@ -132,7 +158,8 @@ class MainActivity : AppCompatActivity() {
                             if (index != 0) {
                                 val tempNow = day.temp.day.roundToInt()
                                 if (tempNow >= 0) {
-                                    editor.putString(textViewTempDay[index - 1], "+$tempNow").apply()
+                                    editor.putString(textViewTempDay[index - 1], "+$tempNow")
+                                        .apply()
                                 } else {
                                     editor.putString(textViewTempDay[index - 1], "$tempNow").apply()
                                 }
@@ -140,14 +167,84 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     genSaveEveryDay(weatherResponse.daily)
+                    setViewInfo()
                 }
-                setViewInfo()
-            }
 
-            override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                setViewInfo()
-            }
-        })
+
+                override fun onError(e: Throwable) {
+//                    setViewInfo()
+                    Log.d("Error!!!", "onError $e")
+                }
+            })
+
+
+
+//        call?.enqueue(object : Callback<WeatherResponse> {
+//            @SuppressLint("SetTextI18n")
+//            override fun onResponse(
+//                call: Call<WeatherResponse>,
+//                response: Response<WeatherResponse>
+//            ) {
+//                if (response.code() == 200) {
+//                    val weatherResponse = response.body()!!
+//                    editor.putInt("textView", weatherResponse.current.temp.roundToInt()).apply()
+//                    val t = weatherResponse.current.temp.roundToInt()
+//                    if (t > 0) {
+//                        editor.putString("textView", "+${t}°C").apply()
+//                    } else {
+//                        editor.putString("textView", "-${t}°C").apply()
+//                    }
+//                    editor.putString(
+//                        "textView2",
+//                        weatherResponse.timezone + "\n" + weatherResponse.current.weather[0].main
+//                    ).apply()
+//                    editor.putString(
+//                        "textViewWindFLow",
+//                        weatherResponse.current.wind_speed.toString()
+//                    ).apply()
+//                    editor.putString("textViewCloudy", weatherResponse.current.clouds.toString())
+//                        .apply()
+//                    editor.putString(
+//                        "textViewHumidity",
+//                        weatherResponse.current.humidity.toString()
+//                    ).apply()
+//                    val icon1 = weatherResponse.current.weather[0].icon
+//                    Picasso.get()
+//                        .load("https://openweathermap.org/img/wn/$icon1@2x.png")
+//                        .fit().centerCrop()
+//                        .into(icon)
+//                    fun genSaveEveryDay(days: List<Daily>) {
+//                        val textViewTempDay = listOf(
+//                            "textViewTempPN",
+//                            "textViewTempVT",
+//                            "textViewTempSR",
+//                            "textViewTempCT",
+//                            "textViewTempPT",
+//                            "textViewTempSB",
+//                            "textViewTempVS"
+//                        )
+//                        days.forEachIndexed { index, day ->
+//                            if (index != 0) {
+//                                val tempNow = day.temp.day.roundToInt()
+//                                if (tempNow >= 0) {
+//                                    editor.putString(textViewTempDay[index - 1], "+$tempNow")
+//                                        .apply()
+//                                } else {
+//                                    editor.putString(textViewTempDay[index - 1], "$tempNow").apply()
+//                                }
+//                            }
+//                        }
+//                    }
+//                    genSaveEveryDay(weatherResponse.daily)
+//                }
+//                setViewInfo()
+//            }
+//
+//            override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+//                setViewInfo()
+//                Log.d("onFailure!?!?", "MSG")
+//            }
+//        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
